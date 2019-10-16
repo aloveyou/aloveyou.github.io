@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/bearbrick.jpeg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content>
+  <meta name="author" content="Nic Ray">
+  <meta name="keywords" content>
+  <title>如何理解“面向对象”编程思想 ~ Nicray`s blog</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css">
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css">
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css">
+  
+  <link rel="stylesheet" href="/css/main.css">
+
+  
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Nicray`s blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2"
+         style="background: url('/img/5.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p>星期三, 十月 16日 2019, 11:03 上午</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <p>理解面向对象，首先理解要它的基础概念：</p>
+<p>面向对象 ( Object Oriented ) 是将现实问题构建关系，然后抽象成 <strong>类 ( class )</strong>，给类定义属性和方法后，再将类实例化成 <strong>实例 ( instance )</strong> ，通过访问实例的属性和调用方法来进行使用。</p>
+<p>在不同的语言中，对象的定义范围不同。在 Python 中“类”和“类的实例”都称为 <strong>对象 ( Object )</strong>，因为 Python 的类是更顶级的 type 实例化后的对象，也就是常说的“Python 里万物皆对象”；而在 Java 等静态语言中，一般把类的实例称为对象。</p>
+<p>理解了理论知识后，接着通过例子，再理解面向对象的三大特征：封装、继承、多态。</p>
+<p>下边我们把“女娲造人”这个神话故事，用 Python 的面向对象代码来叙述一遍：</p>
+<p>假设我们是女娲（程序设计者），我们突然有个想法，想造一群和自己差不多的小人，小人需要有男女两种性别，外观和行为也有一些差异。那首先我们分析出，不管什么性别，都应该有四肢，所以我们先仿照自己的构造，在脑海中构思泥人的样子（抽象成基类），然后先赋予泥人一些共有的行为（定义类的实例方法）：</p>
+<pre><code>class Human(object):    def __init__(self, name):        # 有个名字，有两只手，两条腿        self._name = name        self.hands = 2        self.legs = 2    def introduce_self(self):        # 介绍自己        print(&#39;我是%s&#39; % self._name)    def work(self):        # 工作，但还没有定义具体的行为        raise NotImplementedError</code></pre><p>然后我们先捏3个泥人（<strong>实例化</strong>对象），并给他们取了不同的名字（初始化实例属性）：</p>
+<pre><code>&gt;&gt;&gt; a = Human(&#39;大强子&#39;)&gt;&gt;&gt; b = Human(&#39;二狗子&#39;)&gt;&gt;&gt; c = Human(&#39;三愣子&#39;)</code></pre><p>我们让其中一个人介绍自己（调用实例方法）：</p>
+<pre><code>&gt;&gt;&gt; a.introduce_self()我是大强子</code></pre><p>这里解释一下 <code>Human</code> 的代码，虽然设定了每个人都要工作，但如何工作需要到具体到不同类型的人，所以在基类里我们并没有定义 <code>work</code> 方法的内容，如果强行调用会抛出异常。</p>
+<p>还有一点，上面定义属性时，我们把 <code>self._name</code> 前边加了下划线，是因为 Python 里用下划线来约定这是一个受保护变量（对应 Java 中的 <code>protected</code> ），我们不希望外界能直接访问 <code>name</code> 这个属性，必须要通过对象调用 <code>introduce_self()</code> 这个行为介绍了自己，别人才能知道他叫什么名字，这个过程就称之为<strong>封装</strong>。</p>
+<p>然后我们继续完成想法，需要给泥人增加两种性别，并且异性之间能结婚，我们开始在刚才泥人模型的基础上（<strong>继承</strong>于基类），构思出两种性别的泥人的区别（设置不同的属性），然后让他们都可以工作，但工作的内容不一样（调用相同的方法出现不同结果，是<strong>多态</strong>性），并决定让男人可以娶女人（将这个行为定义为男人的方法）。</p>
+<pre><code>import randomclass Female(Human):    def __init__(self, name):        # 调用父类的初始化方法，依然有名字、两只手、两条腿        super().__init__(name)        # 头发和力量进行随机取值        self.hair = random.randint(3, 5)        self.power = random.randint(1, 3)        # 是否已婚        self.married = False    def work():        print(&#39;%s采摘了一些果子&#39; % self.name)class Male(Human):    def __init__(self, name):        super().__init__(name)        self.hair = random.randint(0, 2)        self.power = random.randint(2, 5)        self.married = False    def work():        print(&#39;%s出去打猎了一天&#39; % self.name)    def marry(self, other):        # 判断自己或对方是否已结婚，否则抛出异常        if self.married is True or other.married is True:            raise ValueError(&#39;法律不支持多次结婚&#39;)        # 判断对方是否是女性，否则抛出异常        if isinstance(other, Female):            self.married = True            other.married = True        else:            raise TypeError(&#39;法律不支持同性结婚&#39;)</code></pre><p>然后我们就可以让小人活动起来：</p>
+<pre><code>&gt;&gt;&gt; a = Male(&#39;大强子&#39;)&gt;&gt;&gt; b = Male(&#39;二狗子&#39;)&gt;&gt;&gt; c = Female(&#39;翠花&#39;)&gt;&gt;&gt; for h in [a, b, c]:...     # 调用父类的方法...     h.introduce_self()我是大强子我是二狗子我是翠花&gt;&gt;&gt; for h in [a, b, c]:...     # 多态性使相同的方法产生不同的结果...     h.work()大强子出去打猎了一天二狗子出去打猎了一天翠花采摘了一些果子&gt;&gt;&gt; a.marry(c)&gt;&gt;&gt; a.marriedTrue&gt;&gt;&gt; c.marriedTrue&gt;&gt;&gt; b.marry(c)ValueError: 法律不支持多次结婚&gt;&gt;&gt; b.marry(a)TypeError: 法律不支持同性结婚</code></pre><p>设计到此结束，我们来复盘一下整个过程。</p>
+<p>我们先是把人的共有特征抽象成 <code>Human</code> 基类，这个基类并不用于实例化，而是用于让 <code>Female</code> 和 <code>Male</code> 继承它，并实现不同的行为。这样我们就避免把一些共有的行为重复在多个类里定义，如果我们后续想对人类的行为进行变动，也只需要修改 <code>Human</code>，继承 <code>Human</code> 的子类会自动获得新行为，这是 <strong>继承</strong>带来的好处。</p>
+<p>我们把 <code>name</code> 设计为受保护变量，外界无法直接访问这个属性，让每个人的隐私得到了保障（一些不必要的行为变得可控），这是 <strong>封装</strong> 带来的好处。</p>
+<p>同时我们在 <code>Human</code> 中预留了 <code>work</code> 方法，并在 <code>Female</code> 和 <code>Male</code> 都实现了不同的效果，然后我们知道人人都有 <code>work</code> 方法，因此可以像 <code>introduce_self</code> 一样，用循环批量调用 <code>work</code> 方法，这是 <strong>多态</strong> 带来的好处。</p>
+<p>看到这里你应该有些理解：面向对象是将客观事物和一些关系，抽象成具体的模型（类），并为其设计属性和方法，即 <strong>对象 = 属性（特征）+ 方法（行为）</strong>。</p>
+<p>如果是拥有复杂关系的需求，我们就应该尽可能将互相有关联的行为抽象成类，比如每一个网页，网页中每一个组件 等等。实际上面向对象帮助我们在几万行代码的大型项目中，仍然可以游刃有余，正因为如此，才能发展为目前应用最为广泛的编程思想。</p>
+<p>但也并不是说任何时候都要“面向对象”，过度的封装和抽象，也会造成代码可读性的下降，以及运行效率的下降，因此我们应该<strong>在能将事物抽象化的需求中使用面向对象</strong>。</p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" rel="nofollow noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+      <a href="http://beian.miit.gov.cn/" target="_blank"
+         rel="nofollow noopener">京ICP证123456号</a>
+      
+        <a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=12345678"
+           target="_blank" rel="nofollow noopener"> | 京公网安备12345678号</a>
+      
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "如何理解“面向对象”编程思想&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+</body>
+</html>
